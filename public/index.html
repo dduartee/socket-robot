@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=IE11">
+    <title>Controlador robo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/socket.io.js"></script>
+    <script src="js/action.js">
+
+    </script>
+</head>
+
+<body>
+    <center>
+        <h1>Comando: <div id="saida" style="font-size: x-large;"></div>
+        </h1>
+        <div class="roww">
+            <div class="coll">
+                <img class="camera" src="http://192.168.0.100">
+                <!--camera ip motion-->
+            </div>
+            <div class="coll">
+
+                <div class="roww">
+                    <div class="coll">
+                        <input type="image" src="img/frente.png" class="moll" id="Frente" alt="Frente"
+                            onclick="move(this)" />
+                    </div>
+                    <div class="coll">
+                        <input type="image" src="img/esquerda.png" class="moll" id="Esquerda" alt="Esquerda"
+                            onclick="move(this)" />
+                        <input type="image" src="img/panico.png" class="moll" id="Parar" alt="Parar"
+                            onclick="move(this)" />
+                        <input type="image" src="img/direita.png" class="moll" id="Direita" alt="Direita"
+                            onclick="move(this)" />
+                    </div>
+                    <div class="coll">
+                        <input type="image" src="img/re.png" class="moll" id="Ré" alt="" onclick="move(this)" />
+                    </div>
+                    <div class="coll">
+                        <input type="image" src="img/lpd.png" class="moll" id="Luz desligada" alt="Luz desligada"
+                            onclick="move(this)" />
+                        <input type="image" src="img/lpl.png" class="moll" id="Luz ligada" alt="Luz ligada"
+                            onclick="move(this)" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>
