@@ -34,6 +34,8 @@ npm start
 ```
 
 ## Histórico de versões
+* 1.1.0
+    * Mudança: Adicionado contagem de usuarios conectado no socket em tempo real (09/06/2020)
 * 1.0.0
     * Mudança: Adicionando execução de comandos para o gpio do raspberry (08/06/2020)
 * 0.1.0

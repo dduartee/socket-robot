@@ -3,7 +3,9 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var rpio = require('rpio'); //define o uso do rpio
+var rpio = require('rpio');
+var contador = 0;
+
 
 //abre pinos
 rpio.open(40, rpio.OUTPUT, rpio.LOW);
@@ -19,6 +21,11 @@ app.get('/', function (req, res) {
 });
 
 io.on('connection', function (socket) {
+    contador++;//adiciona usuarios
+    console.log(contador);
+    socket.emit('contador', contador);
+    socket.broadcast.emit('contador', contador);
+  
   socket.on('move', function (msg) {
     switch (msg) {
       case 'frente':
@@ -71,9 +78,14 @@ io.on('connection', function (socket) {
     }
     io.emit('move', msg);
     socket.broadcast.emit('move', msg);
-    //console.log('move: ' + msg);
   });
 
+  socket.on('disconnect', function() {
+    contador--;//diminui usuarios
+    console.log(contador);
+    socket.emit('contador', contador);
+    socket.broadcast.emit('contador', contador);
+  });
 });
 
 http.listen(3001, function () {

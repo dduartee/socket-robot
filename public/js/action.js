@@ -5,5 +5,11 @@ function move(obj) { // funcao com argumento do input
     //console.log(obj.alt);
     socket.on('move', function (msg) {
         document.getElementById('saida').innerHTML = msg; // retorna valor
-    })
+    });
+    
 }
+
+socket.on('contador', function (data) {
+    //console.log(data);
+    document.getElementById('contador').innerHTML = data;
+});
