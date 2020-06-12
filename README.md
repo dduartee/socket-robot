@@ -34,6 +34,8 @@ npm start
 ```
 
 ## Histórico de versões
+* 1.1.1
+    * Mudança: Detecta automaticamente qual hostname da camera baseado no endereço conectado (12/06/2020)
 * 1.1.0
     * Mudança: Adicionado contagem de usuarios conectado no socket em tempo real (09/06/2020)
 * 1.0.0

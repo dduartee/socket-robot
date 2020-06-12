@@ -17,7 +17,7 @@
         </h1>
         <div class="roww">
             <div class="coll">
-                <img class="camera" src="http://192.168.0.100">
+                <img id="camera" class="camera" src="">
                 <!--camera ip motion-->
             </div>
             <div class="coll">
@@ -49,6 +49,9 @@
             </div>
         </div>
         <h3>Usuarios conectados: <span id="contador"></span></h3>
+        <script>
+            document.getElementById("camera").src = 'http://' +location.hostname + ':8081' //ip local da camera
+        </script>
 </body>
 
 </html>

@@ -28,61 +28,68 @@ io.on('connection', function (socket) {
   
   socket.on('move', function (msg) {
     switch (msg) {
-      case 'frente':
+      case 'esquerda':
         rpio.write(40, rpio.HIGH);//s1
         rpio.write(38, rpio.LOW);//s2
         rpio.write(37, rpio.HIGH);//s3
         rpio.write(36, rpio.LOW);//s4
-        console.log("[+] indo para frente");
+        io.emit('move', 'Girando para a esquerda');
+        console.log("Girando para a esquerda");
+        break;
+      case 'direita':
+        rpio.write(40, rpio.LOW);//s1
+        rpio.write(38, rpio.HIGH);//s2
+        rpio.write(37, rpio.LOW);//s3
+        rpio.write(36, rpio.HIGH);//s4
+        io.emit('move', 'Girando para a direita');
+        console.log("Girando para a direita");
+
         break;
       case 're':
         rpio.write(40, rpio.LOW);//s1
         rpio.write(38, rpio.HIGH);//s2
-        rpio.write(37, rpio.LOW);//s3
-        rpio.write(36, rpio.HIGH);//s4
-        console.log("[+] indo para tras");
-
-        break;
-      case 'esquerda':
-        rpio.write(40, rpio.LOW);//s1
-        rpio.write(38, rpio.HIGH);//s2
         rpio.write(37, rpio.HIGH);//s3
         rpio.write(36, rpio.LOW);//s4
-        console.log("[+] girando para a esquerda");
+        io.emit('move', 'Andando para trás');
+        console.log("Andando para trás");
         break;
-      case 'direita':
+      case 'frente':
         rpio.write(40, rpio.HIGH);//s1
         rpio.write(38, rpio.LOW);//s2
         rpio.write(37, rpio.LOW);//s3
         rpio.write(36, rpio.HIGH);//s4
-        console.log("[+] girando para a direita");
+        io.emit('move', 'Andando para frente');
+        console.log("Andando para frente");
         break;
       case 'panico':
         rpio.write(40, rpio.LOW);//s1
         rpio.write(38, rpio.LOW);//s2
         rpio.write(37, rpio.LOW);//s3
         rpio.write(36, rpio.LOW);//s4
+        io.emit('move', 'Parando');
         console.log("[+] Parando");
         break;
       case 'lpd':
         rpio.write(35, rpio.LOW);//s1
-        console.log("[+] lpd");
+        io.emit('move', 'Desligando luz');
+        console.log("Desligando luz");
         break;
       case 'lpl':
         rpio.write(35, rpio.HIGH);//s4
-        console.log("[+] lpl");
+        io.emit('move', 'Ligando luz');
+        console.log("Ligando luz");
         break;
       default:
-        console.log('error!')
+        io.emit('move', 'erro no socket...');
+        console.log('error!');
         break;
     }
-    io.emit('move', msg);
-    socket.broadcast.emit('move', msg);
+    
   });
 
   socket.on('disconnect', function() {
     contador--;//diminui usuarios
-    console.log(contador);
+    //console.log(contador);
     socket.emit('contador', contador);
     socket.broadcast.emit('contador', contador);
   });
