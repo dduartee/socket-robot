@@ -34,6 +34,8 @@ npm start
 ```
 
 ## Histórico de versões
+* 1.1.2
+    * Mudança: Adicionado monitor de latencia (14/06/2020)
 * 1.1.1
     * Mudança: Detecta automaticamente qual hostname da camera baseado no endereço conectado (12/06/2020)
 * 1.1.0
