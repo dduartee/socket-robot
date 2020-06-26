@@ -34,6 +34,10 @@ npm start
 ```
 
 ## Histórico de versões
+* 1.4.0
+    * Mudança: Funções e retornos de eventos separados _MOVE_, _LUZ_, 
+               Adicionado de comentarios,
+               _console.log()_ com prefixos de eventos *[!]* eventos *[X]* default de eventos(possiveis erros) *[+]* Adiciona valor contador *[-]* diminui valor contador (25/06/2020)
 * 1.3.0
     * Mudança: Adicionado monitor de latencia (14/06/2020)
 * 1.2.0

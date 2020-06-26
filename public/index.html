@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 
 <head>
@@ -13,8 +12,7 @@
 
 <body>
     <center>
-        <h1>Comando: <span id="saida" style="font-size: x-large;"></span>
-        </h1>
+        <h3><span id="move" style="font-size: x-large;"></span><br><span id="luz" style="font-size: x-large;"></span><br><br></h3>
         <div class="roww">
             <div class="coll">
                 <img id="camera" class="camera" src="">
@@ -40,19 +38,20 @@
                     </div>
                     <div class="coll">
                         <input type="image" src="img/lpd.png" class="moll" id="lpd" alt="Luz desligada"
-                            onclick="move(this)" />
+                            onclick="luz(this)" />
                         <input type="image" src="img/lpl.png" class="moll" id="lpl" alt="Luz ligada"
-                            onclick="move(this)" />
+                            onclick="luz(this)" />
                     </div>
 
                 </div>
             </div>
         </div>
         <h3>Usuários conectados: <span id="contador"></span></h3>
-        <h3>Latência: <span id="latencia"></span></h3>
+        <h3>Latência: <span id="latencia"></span>ms</h3>
         <script>
             document.getElementById("camera").src = 'http://' + location.hostname + ':8081' //ip local da camera
         </script>
+	<a href="http://github.com/dduartee/socket-robot/"><img src="img/github.png" style="width: 75px;"></a>
 </body>
 
 </html>
