@@ -119,7 +119,7 @@ io.on('connection', function (socket) {
       console.log('[!] Desligando luz');
     }
     else {
-      rpio.write(35, rpio.LOW);
+      lpd();
       socket.emit('luz', 'erro no socket'); //socket.emit para somente o socket que enviou
       console.log('[X] erro no socket LUZ');
     }
