@@ -2,8 +2,9 @@ var socket = io();
 var ms = 0;
 
 function mostrarchat() {
+    
     x = document.getElementById("mostrarchat");
-    if (x.style.display === "none") {
+    if (x.style.display == "none") {
         x.style.display = "block";
       } else {
         x.style.display = "none";

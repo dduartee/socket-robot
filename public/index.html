@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=IE11">
     <title>Controlador robo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery.min.js"></script>
     <script src="js/socket.io.js"></script>
@@ -51,14 +52,14 @@
         <h3>Usuários conectados: <span id="contador"></span></h3>
         <h3>Latência: <span id="latencia"></span> ms</h3>
         <button class="chatbtn" onclick="mostrarchat()">Mostrar chat</button>
-        <div class="mostrarchat" id="mostrarchat" style="display: none;">
-            <input type="text" id="user" placeholder="Nome">
+        <div class="mostrarchat" id="mostrarchat" style="display: none;"">
+            <input type="text" id="user" placeholder="Nome" maxlength="100">
             <button id="trocar_user">Alterar nome</button>
             <div id="chatroom">
                 <div id="chat"></div>
                 <div id="status" style="bottom: 100%; "></div>
             </div>
-                <input type="text" id="mensagem" placeholder="Escreva uma mensagem">
+                <input type="text" id="mensagem" placeholder="Escreva uma mensagem" maxlength="200">
                 <button type="button" id="enviar_mensagem">Enviar mensagem</button>
         </div>
         <script>

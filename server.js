@@ -9,7 +9,6 @@ var contador = 0;
 
 const rpio = require('rpio');
 
-
 //abre reles
 rpio.open(40, rpio.OUTPUT, rpio.LOW);
 rpio.open(38, rpio.OUTPUT, rpio.LOW);
@@ -29,32 +28,45 @@ io.on('connection', function (socket) {
   io.emit('contador', contador);
 
   //chat
-  socket.username = "Anonimo";
-  socket.on('trocar_user', function (data){
-    if (data.user.trim() == '') {
-      return 0;
-    }
-    else {
-      console.log(socket.username," => nome =>",data.user)
-      io.sockets.emit('trocou_user', {userV: socket.username, userN: data.user});
-      socket.username = data.user;
-    }
-  });
-
-  socket.on('enviar_mensagem', function(data) {
-    str = data.mensagem.trim()
+  function tratarString(str, len) {
     if (str == '') {
       return 0;
     }
     else {
-      io.sockets.emit('enviar_mensagem', {mensagem: data.mensagem, user: socket.username});
-      console.log(socket.username,'=> mensagem =>',data.mensagem);
+      if (str.length > len) {
+        return 0;
+      }
+      else {
+        return 1;
+      }
     }
+  }
+  socket.username = "Anonimo";
+  socket.on('trocar_user', function (data) {
+    if (!tratarString(data.user, 100)) {
+      return 0;
+    }
+    else {
+      console.log(socket.username, " => nome =>", data.user)
+      io.sockets.emit('trocou_user', { userV: socket.username, userN: data.user });
+      socket.username = data.user;
+    }
+  });
+  socket.on('enviar_mensagem', function (data) {
+
+    if (!tratarString(data.mensagem, 200)) {
+      return 0;
+    }
+    else {
+      io.sockets.emit('enviar_mensagem', { mensagem: data.mensagem, user: socket.username });
+      console.log(socket.username, '=> mensagem =>', data.mensagem);
+    }
+
   });
 
   socket.on('escrevendo', function (data) {
-    socket.broadcast.emit('escrevendo', {user : socket.username});
-    console.log(socket.username,'=> escrevendo =>', {mensagem:data.mensagem});
+    socket.broadcast.emit('escrevendo', { user: socket.username });
+    console.log(socket.username, '=> escrevendo =>', { mensagem: data.mensagem });
   });
   //FUNÇÕES PARA OS EVENTOS
   function frente() { //FUNÇÃO FRENTE

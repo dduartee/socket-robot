@@ -34,6 +34,8 @@ npm start
 ```
 
 ## Histórico de versões
+* 1.5.1
+    * Mudança: Filtro de mensagens para usuario 100 caracteres e 200 para mensagens, adicionado _::after_ nas mensagens (27/06/2020)
 * 1.5.0
     * Mudança: Adicionado chat (27/06/2020)
 * 1.4.0

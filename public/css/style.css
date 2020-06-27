@@ -19,9 +19,10 @@
     height: 25%;
     overflow: auto;
     border-style: groove;
+    overflow-wrap: break-word;
 }
-p.mensagem {
-    margin: 0px;
+p.mensagem::after {
+    margin: 1;
     width: 100%;
     height: 30px;
     font-size: medium;
@@ -35,9 +36,6 @@ p.status {
     font-size: smaller;
     font-style: italic;
     font-family: 'Comfortaa', sans-serif;
-}
-button.chatbtn:hover #mostrarchat {
-    display: block;
 }
 @media screen and (max-width: 1024px) {
     .coll {
