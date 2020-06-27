@@ -34,6 +34,8 @@ npm start
 ```
 
 ## Histórico de versões
+* 1.5.0
+    * Mudança: Adicionado chat (27/06/2020)
 * 1.4.0
     * Mudança: Funções e retornos de eventos separados _MOVE_, _LUZ_, 
                Array de pinos dos reles,
