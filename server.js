@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http, {
-  pingInterval: 500
+  pingInterval: 1000
 });
 var contador = 0;
 
@@ -28,6 +28,34 @@ io.on('connection', function (socket) {
   console.log('[+] ' + socket.id + ' entrou');
   io.emit('contador', contador);
 
+  //chat
+  socket.username = "Anonimo";
+  socket.on('trocar_user', function (data){
+    if (data.user.trim() == '') {
+      return 0;
+    }
+    else {
+      console.log(socket.username," => nome =>",data.user)
+      io.sockets.emit('trocou_user', {userV: socket.username, userN: data.user});
+      socket.username = data.user;
+    }
+  });
+
+  socket.on('enviar_mensagem', function(data) {
+    str = data.mensagem.trim()
+    if (str == '') {
+      return 0;
+    }
+    else {
+      io.sockets.emit('enviar_mensagem', {mensagem: data.mensagem, user: socket.username});
+      console.log(socket.username,'=> mensagem =>',data.mensagem);
+    }
+  });
+
+  socket.on('escrevendo', function (data) {
+    socket.broadcast.emit('escrevendo', {user : socket.username});
+    console.log(socket.username,'=> escrevendo =>', {mensagem:data.mensagem});
+  });
   //FUNÇÕES PARA OS EVENTOS
   function frente() { //FUNÇÃO FRENTE
     rpio.write(40, rpio.HIGH); //s1
