@@ -32,7 +32,15 @@ Inicialização sem nodemon:
 ```sh
 npm start
 ```
+## Imagem do circuito
 
+![Circuito](https://user-images.githubusercontent.com/45330928/102620990-adc29680-411d-11eb-9a78-34a745573993.png)
+
+## ATENÇÃO
+*Vale resaltar que no circuito, a ligação dos motores foi realizado juntamente a protoboard. Fiz isso por questões de praticidade.*
+*Mas dependendo a potência dos motores, pode prejudicar a sua protoboard*
+<br>
+_Considere o led como uma lâmpada 12V_
 ## Histórico de versões
 * 1.5.1
     * Mudança: Filtro de mensagens para usuario 100 caracteres e 200 para mensagens, adicionado _::after_ nas mensagens (27/06/2020)
