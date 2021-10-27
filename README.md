@@ -9,12 +9,7 @@ Este comando, acionará os pinos do Raspberry Pi, acionando relés especificos q
 
 ## Instalação das dependências
 
-O projeto conta com as dependencias "_path, express, http_ e _socket.io_"
-Para instalar elas, é possivel instalar todas manualmente com:
-```sh
-npm install <dependencia>
-```
-Mas para instalar todas as dependencias de forma automatizada pode se usar o comando:
+Para instalar todas as dependencias de forma automatizada pode se usar o comando:
 ```sh
 npm install
 ```
@@ -25,7 +20,7 @@ Para executar o script do projeto, usa-se os comandos:
 
 Para *desenvolvimento* com nodemon:
 ```sh
-npm dev start
+npm run dev
 ```
 
 Inicialização sem nodemon:
