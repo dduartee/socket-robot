@@ -22,18 +22,26 @@ app.get('/', function (req, res) { //inicialização da pagina
   app.use(express.static(path.join(__dirname, 'public')));
 });
 io.on("connection", socket => {
-  socket.onAny(console.log)
+  // socket.onAny(console.log)
 
-  const move = new Move(socket, io);
-  socket.on("move", move.execute);
+  socket.on("move", (direction) => {
+    const move = new Move(socket, io);
+    move.execute(direction)
+  });
 
-  const starMove = new StarMove(socket, io);
-  socket.on("starMove", starMove.execute)
+  socket.on("starMove", () => {
+    const starMove = new StarMove(socket, io);
+    starMove.execute()
+  })
   
-  const light = new Light(socket, io);
-  socket.on('light', light.execute);
+  
+  socket.on('light', (state) => {
+    const light = new Light(socket, io);
+    light.execute(state)
+});
 
   socket.on('disconnect', () => {
+    const move = new Move(socket, io);
     const moveState = stateCache.get('moveState') as MoveState;
     // se o usuário que desconectou era o último a mover o robô, então desligar os relés
     if (moveState?.invoker === socket.id) move.disconnect()

@@ -12,10 +12,10 @@ class MoveController {
             ['s4', 36],
         ]);
         this.combinations = new Map<moves, string[]> ([
-            ['forward', ['s1', 's2']],
-            ['backward', ['s3', 's4']],
-            ['left', ['s1', 's4']],
-            ['right', ['s2', 's3']],
+            ['forward', ['s1', 's4']],
+            ['backward', ['s2', 's3']],
+            ['left', ['s1', 's3']],
+            ['right', ['s2', 's4']],
             ['stop', []],
         ]);
     }
