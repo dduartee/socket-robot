@@ -7,8 +7,6 @@ class GPIOService {
             close_on_exit: true,
             mock: undefined
         })
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        rpio.on('warn', () => {});
     }
     /**
      * @param pins Lista de pinos que serão utilizados na instância
@@ -22,8 +20,9 @@ class GPIOService {
      * @param pin Numero do pino que será controlado
      * @param state Estado booleano do pino
      */
-    write(pin: number|undefined, state: boolean) {
-        if(pin) rpio.write(pin, state ? rpio.HIGH : rpio.LOW);
+    write(pin: number, state: boolean) {
+        if(!this.pins.includes(pin)) throw new Error("Pino não aberto");
+        rpio.write(pin, state ? rpio.HIGH : rpio.LOW);
     }
     
     /**

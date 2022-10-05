@@ -1,6 +1,6 @@
 import NodeCache from "node-cache";
 
-const stateCache = new NodeCache({ stdTTL: 0, checkperiod: 0, useClones: false });
+const stateCache = new NodeCache({ useClones: false });
 export default stateCache;
 
 export type MoveState = {

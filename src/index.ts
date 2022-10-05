@@ -1,7 +1,5 @@
 import express from "express";
-import { GPIOService } from "./services/GPIOService";
 import { createServer } from "http";
-import { MoveController } from "./controllers/MoveController";
 import { Server } from "socket.io";
 import stateCache, { MoveState } from "./StateCache";
 import path from "path";
@@ -23,30 +21,36 @@ app.get('/', function (req, res) { //inicialização da pagina
 });
 io.on("connection", socket => {
   // socket.onAny(console.log)
+  try {
+    socket.on("move", (direction) => {
+      const move = new Move(socket, io);
+      move.execute(direction)
+      return;
+    });
 
-  socket.on("move", (direction) => {
-    const move = new Move(socket, io);
-    move.execute(direction)
-  });
+    socket.on("starMove", (coef) => {
+      const starMove = new StarMove(socket, io);
+      starMove.execute(coef)
+      return;
+    })
 
-  socket.on("starMove", () => {
-    const starMove = new StarMove(socket, io);
-    starMove.execute()
-  })
-  
-  
-  socket.on('light', (state) => {
-    const light = new Light(socket, io);
-    light.execute(state)
-});
 
-  socket.on('disconnect', () => {
-    const move = new Move(socket, io);
-    const moveState = stateCache.get('moveState') as MoveState;
-    // se o usuário que desconectou era o último a mover o robô, então desligar os relés
-    if (moveState?.invoker === socket.id) move.disconnect()
-  });
+    socket.on('light', (state) => {
+      const light = new Light(socket, io);
+      light.execute(Boolean(state))
+      return;
+    });
 
+    socket.on('disconnect', () => {
+      const move = new Move(socket, io);
+      const moveState = stateCache.get('moveState') as MoveState;
+      // se o usuário que desconectou era o último a mover o robô, então desligar os relés
+      if (moveState?.invoker === socket.id) move.disconnect()
+      return;
+    });
+  } catch (err) {
+    console.error(err)
+  }
 });
 
 httpServer.listen(3000, () => {

@@ -1,0 +1,136 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=IE11">
+    <title>Controlador robo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-type" content="text/html; charset=ISO-8859-1">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/socket.io.min.js"></script>
+</head>
+
+<body>
+    <center>
+        <div class="roww">
+            <div class="coll">
+                <img id="camera" class="camera" src="">
+                <!--camera ip motion-->
+            </div>
+            <div class="coll">
+                <div class="roww">
+                    <p id="moveState"></p>
+                    <p id="lightState"></p>
+                </div>
+                <div class="roww">
+                    <div class="coll">
+                        <input type="image" src="img/frente.png" class="moll" alt="Frente" onclick="move('forward')" />
+                    </div>
+                    <div class="coll">
+                        <input type="image" src="img/esquerda.png" class="moll" alt="Esquerda" onclick="move('left')" />
+                        <input type="image" src="img/panico.png" class="moll" alt="Parar" onclick="move('stop')" />
+                        <input type="image" src="img/direita.png" class="moll" alt="Direita" onclick="move('right')" />
+                    </div>
+                    <div class="coll">
+                        <input type="image" src="img/re.png" class="moll" alt="Ré" onclick="move('backward')" />
+                    </div>
+                    <div class="coll">
+                        <input type="image" src="img/lpd.png" class="moll" alt="Luz desligada" onclick="light(false)" />
+                        <input type="image" src="img/lpl.png" class="moll" alt="Luz ligada" onclick="light(true)" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <h3>Usuários conectados: <span id="contador"></span></h3>
+        <h3>Latência: <span id="latencia"></span> ms</h3>
+        <button class="chatbtn" onclick="mostrarchat()">Mostrar chat</button>
+        <div class="mostrarchat" id="mostrarchat" style="display: none;"">
+            <input type=" text" id="user" placeholder="Nome" maxlength="100">
+            <button id="trocar_user">Alterar nome</button>
+            <div id="chatroom">
+                <div id="chat"></div>
+                <div id="status" style="bottom: 100%; "></div>
+            </div>
+            <input type="text" id="mensagem" placeholder="Escreva uma mensagem" maxlength="200">
+            <button type="button" id="enviar_mensagem">Enviar mensagem</button>
+        </div>
+        <script>
+            document.getElementById("camera").src = 'http://' + location.hostname + ':8081' //ip local da camera
+        </script><br>
+        <a href="http://github.com/dduartee/socket-robot/"><img src="img/github.png"
+                style="width: 75px; bottom: 100%;"></a>
+        <script>
+            var socket = io();
+            var ms = 0;
+
+            function mostrarchat() {
+                x = document.getElementById("mostrarchat");
+                if (x.style.display == "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+            socket.on('contador', function (data) {
+                document.getElementById('contador').innerHTML = data;
+            });
+            socket.onAny(console.debug)
+            function move(direction) { // funcao com argumento do input
+                socket.on('moveState', (state) => {
+                    document.getElementById('moveState').innerHTML = `${state.invoker} - ${state.direction}`;
+                });
+                socket.emit('move', direction); // envia informação para o socket
+            }
+
+            function light(state) {
+                socket.on('lightState', (state) => {
+                    document.getElementById('lightState').innerHTML = `${state.invoker} - luz ${state.state? 'ligada' : 'desligada'}`;
+                });
+                socket.emit('light', state);
+            }
+
+            $(function () { // chat
+                var mensagem = $("#mensagem");
+                var user = $("#user");
+                var enviar_mensagem = $("#enviar_mensagem");
+                var trocar_user = $("#trocar_user");
+                var chat = $("#chat");
+                var status = $("#status");
+
+                socket.on('pong', function (ms) {
+                    document.getElementById('latencia').innerHTML = ms;
+                    status.html(' '); // 1seg
+                });
+
+                enviar_mensagem.click(function () {
+                    socket.emit('enviar_mensagem', { mensagem: mensagem.val() });
+                    mensagem.val('');
+                    status.html(' ');
+                });
+                socket.on("enviar_mensagem", function (data) { // retorno de mensagem
+                    chat.append("<p class='mensagem'>" + data.user + ": " + data.mensagem + "</p>")
+                    var elem = document.getElementById('chatroom');
+                    elem.scrollTop = elem.scrollHeight;
+                });
+
+                trocar_user.click(function () {  // trocar de user
+                    socket.emit('trocar_user', { user: user.val() });
+                });
+                mensagem.bind("keypress", function () { // escrevendo para o socket
+                    socket.emit('escrevendo', { mensagem: mensagem.val() });
+                });
+                socket.on('escrevendo', function (data) { //retorna escrevendo para os outros sockets
+                    status.html("<p class='status'>" + data.user + " esta escrevendo..." + "</p>")
+                });
+                socket.on('trocou_user', function (data) { //trocou de user
+                    chat.append("<p class='mensagem'>" + data.userV + " trocou de nome para " + data.userN);
+                    var elem = document.getElementById('chatroom');
+                    elem.scrollTop = elem.scrollHeight;
+                })
+            })
+        </script>
+</body>
+
+</html>

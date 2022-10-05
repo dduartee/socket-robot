@@ -1,6 +1,6 @@
 import { Socket, Server } from "socket.io";
 import { MoveController, moves } from "../controllers/MoveController";
-import { GPIOService } from "../services/GPIOService";
+import  {GPIOService}  from "../services/GPIOService";
 import stateCache, { MoveState } from "../StateCache";
 import { IEvent } from "./IEvent";
 
@@ -9,8 +9,8 @@ class StarMove implements IEvent {
     /**
      * @param coef Parametro destinado para controlar o angulo de rotação do robô em função do tempo de giro
      */
-    async execute(coef: number): Promise<void> {
-        const gpioService = new GPIOService();
+    async execute(coef=1): Promise<void> {
+        const gpioService = new GPIOService()
         const moveController = new MoveController(gpioService);
 
         const starPattern = [
