@@ -1,5 +1,5 @@
 import {GPIOService} from "../services/GPIOService";
-export type moves = 'forward' | 'backward' | 'left' | 'right' | 'stop';
+export type directions = 'forward' | 'backward' | 'left' | 'right' | 'stop';
 class MoveController {
     private relays: Map<string, number>;
     private combinations: Map<string, string[]>;
@@ -11,7 +11,7 @@ class MoveController {
             ['s3', 37],
             ['s4', 36],
         ]);
-        this.combinations = new Map<moves, string[]>([
+        this.combinations = new Map<directions, string[]>([
             ['forward', ['s1', 's4']],
             ['backward', ['s2', 's3']],
             ['left', ['s1', 's3']],
@@ -23,7 +23,7 @@ class MoveController {
      * Metodo responsável para desabilitar os outros relés e encontrar a combinação de relés para a direção desejada
      * @param direction Direção para a qual o robô deve se mover
      */
-    public move(direction: moves) {
+    public move(direction: directions) {
         const pins = Array.from(this.relays.values());
         this.gpioService.setPins(pins)
         this.gpioService.turnOff(); // desliga todos os relés
@@ -38,7 +38,7 @@ class MoveController {
         })
         return;
     }
-    public async timedMove(direction: moves, seconds: number) {
+    public async timedMove(direction: directions, seconds: number) {
         return new Promise((resolve) => {
             this.move(direction);
             setTimeout(() => {

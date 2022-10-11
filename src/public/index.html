@@ -45,17 +45,7 @@
         </div>
         <h3>Usuários conectados: <span id="contador"></span></h3>
         <h3>Latência: <span id="latencia"></span> ms</h3>
-        <button class="chatbtn" onclick="mostrarchat()">Mostrar chat</button>
-        <div class="mostrarchat" id="mostrarchat" style="display: none;"">
-            <input type=" text" id="user" placeholder="Nome" maxlength="100">
-            <button id="trocar_user">Alterar nome</button>
-            <div id="chatroom">
-                <div id="chat"></div>
-                <div id="status" style="bottom: 100%; "></div>
-            </div>
-            <input type="text" id="mensagem" placeholder="Escreva uma mensagem" maxlength="200">
-            <button type="button" id="enviar_mensagem">Enviar mensagem</button>
-        </div>
+
         <script>
             document.getElementById("camera").src = 'http://' + location.hostname + ':8081' //ip local da camera
         </script><br>
@@ -64,15 +54,10 @@
         <script>
             var socket = io();
             var ms = 0;
+            setInterval(() => {
+                socket.emit('ping', Date.now());
+            }, 400);
 
-            function mostrarchat() {
-                x = document.getElementById("mostrarchat");
-                if (x.style.display == "none") {
-                    x.style.display = "block";
-                } else {
-                    x.style.display = "none";
-                }
-            }
             socket.on('contador', function (data) {
                 document.getElementById('contador').innerHTML = data;
             });

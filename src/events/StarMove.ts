@@ -1,16 +1,16 @@
 import { Socket, Server } from "socket.io";
-import { MoveController, moves } from "../controllers/MoveController";
+import { MoveController, directions } from "../controllers/MoveController";
 import  {GPIOService}  from "../services/GPIOService";
 import stateCache, { MoveState } from "../StateCache";
 import { IEvent } from "./IEvent";
 
 class StarMove implements IEvent {
-    constructor(private socket: Socket, private io: Server) { }
+    constructor(private socket: Socket, private io: Server, private rpioInstance: typeof rpio) { }
     /**
      * @param coef Parametro destinado para controlar o angulo de rotação do robô em função do tempo de giro
      */
     async execute(coef=1): Promise<void> {
-        const gpioService = new GPIOService()
+        const gpioService = new GPIOService(this.rpioInstance)
         const moveController = new MoveController(gpioService);
 
         const starPattern = [
@@ -23,7 +23,7 @@ class StarMove implements IEvent {
             { direction: 'backward', seconds: 1 },
             { direction: 'right', seconds: 2*coef },
             { direction: 'forward', seconds: 1 },
-        ] as Array<{direction: moves, seconds: number}>;
+        ] as Array<{direction: directions, seconds: number}>;
 
         for (const move of starPattern) {
             const moveState = {

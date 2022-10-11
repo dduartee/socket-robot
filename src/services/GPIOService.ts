@@ -1,18 +1,14 @@
 import rpio from "rpio";
 class GPIOService {
     pins: number[];
-    constructor() {
+    constructor(private rpioInstance: typeof rpio) {
         this.pins = [];
-        rpio.init({
-            close_on_exit: true,
-            mock: undefined
-        })
     }
     /**
      * @param pins Lista de pinos que serão utilizados na instância
      */
     setPins(pins: number[]) {
-        pins.map(pin => rpio.open(pin, rpio.OUTPUT, rpio.LOW));
+        pins.map(pin => this.rpioInstance.open(pin, this.rpioInstance.OUTPUT, this.rpioInstance.LOW));
         this.pins = pins;
     }
     /**
@@ -22,14 +18,14 @@ class GPIOService {
      */
     write(pin: number, state: boolean) {
         if(!this.pins.includes(pin)) throw new Error("Pino não aberto");
-        rpio.write(pin, state ? rpio.HIGH : rpio.LOW);
+        this.rpioInstance.write(pin, state ? this.rpioInstance.HIGH : this.rpioInstance.LOW);
     }
     
     /**
      * Desabilita todos os pinos da instância
      */
     turnOff() {
-        this.pins.map(pin => rpio.write(pin, rpio.LOW));
+        this.pins.map(pin => this.rpioInstance.write(pin, this.rpioInstance.LOW));
     }
 }
 

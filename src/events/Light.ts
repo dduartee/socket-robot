@@ -4,9 +4,9 @@ import stateCache, { LightState } from "../StateCache";
 import { IEvent } from "./IEvent";
 
 class Light implements IEvent {
-    constructor(private socket: Socket, private io: Server) { }
+    constructor(private socket: Socket, private io: Server, private rpioInstance: typeof rpio) { }
     execute(state: boolean): void {
-        const gpioService = new GPIOService();
+        const gpioService = new GPIOService(this.rpioInstance);
         const pin = 32;
         gpioService.setPins([pin])
         gpioService.write(pin, state);

@@ -1,13 +1,13 @@
 import { Server, Socket } from "socket.io";
-import { MoveController, moves } from "../controllers/MoveController";
+import { MoveController, directions } from "../controllers/MoveController";
 import {GPIOService} from "../services/GPIOService";
 import stateCache, { MoveState } from "../StateCache";
 import { IEvent } from "./IEvent";
 
 class Move implements IEvent {
-    constructor(private socket: Socket, private io: Server) { }
-    execute(direction: moves) {
-        const gpioService = new GPIOService()
+    constructor(private socket: Socket, private io: Server, private rpioInstance: typeof rpio) { }
+    execute(direction: directions) {
+        const gpioService = new GPIOService(this.rpioInstance)
         const moveController = new MoveController(gpioService);
         moveController.move(direction);
 
@@ -23,7 +23,7 @@ class Move implements IEvent {
         return;
     }
     disconnect() {
-        const gpioService = new GPIOService()
+        const gpioService = new GPIOService(this.rpioInstance)
         const moveController = new MoveController(gpioService);
         moveController.move('stop');
 
